@@ -82,6 +82,6 @@ export interface IProduct {
     attributes: IProductAttributes;
 }
 
-interface IApiResponse {
+export interface IApiResponse {
     data: IProduct[];
 }

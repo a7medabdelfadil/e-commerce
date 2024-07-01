@@ -7,9 +7,11 @@ interface ProductListProps {
 
 const ProductList: React.FC<ProductListProps> = ({ productList }) => {
     return (
-        <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {productList.map(product => (
-                <ProductCard key={product.id} product={product} />
+                <div key={product.id} className="mb-4">
+                    <ProductCard product={product} />
+                </div>
             ))}
         </div>
     );

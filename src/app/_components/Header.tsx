@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 const Header = () => {
     return (
-        <header className="bg-white dark:bg-gray-900">
+        <header className="bg-white dark:bg-background pt-3">
             <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
                 <a className="block text-teal-600 dark:text-teal-300 shadow-md" title='Abufadel Logo' href="#">
                     <Image src='/favicon.png' alt='Abufadel Logo' width={50} height={50} />
