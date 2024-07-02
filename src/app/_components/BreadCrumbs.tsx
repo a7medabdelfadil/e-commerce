@@ -1,19 +1,21 @@
+import Link from 'next/link';
 import React from 'react';
 
 interface BreadCrumbsProps {
-    currentCourse?: string;
+    currentCourse: string | undefined;
+    id: string
 }
 
 // ** In the name of Allah ♥️
 
-const BreadCrumbs: React.FC<BreadCrumbsProps> = ({ currentCourse = 'Next.js' }) => {
+const BreadCrumbs: React.FC<BreadCrumbsProps> = ({id ,currentCourse }) => {
     return (
         <div className="p-4 bg-gray-900 text-white rounded-lg shadow-md">
             <nav aria-label="Breadcrumb">
                 <ol className="flex flex-wrap overflow-hidden rounded-lg border border-gray-700 text-gray-200">
                     <li className="flex items-center">
-                        <a
-                            href="#"
+                        <Link
+                            href="/"
                             className="flex h-10 items-center gap-1.5 bg-gray-800 px-4"
                         >
                             <svg
@@ -31,26 +33,26 @@ const BreadCrumbs: React.FC<BreadCrumbsProps> = ({ currentCourse = 'Next.js' }) 
                                 />
                             </svg>
                             <span className="text-sm font-medium">Home</span>
-                        </a>
+                        </Link>
                     </li>
 
                     <li className="relative flex items-center">
                         <span className="absolute inset-y-0 -start-px h-10 w-4 bg-gray-800 [clip-path:_polygon(0_0,_0%_100%,_100%_50%)] rtl:rotate-180"></span>
-                        <a
-                            href="#"
+                        <Link
+                            href="/"
                             className="flex h-10 items-center bg-gray-900 pe-4 ps-8 text-sm font-medium"
                         >
                             Courses
-                        </a>
+                        </Link>
                     </li>
 
                     <li className="relative flex items-center">
                         <span className="absolute inset-y-0 -start-px h-10 w-4 bg-gray-900 [clip-path:_polygon(0_0,_0%_100%,_100%_50%)] rtl:rotate-180"></span>
                         <a
-                            href="#"
+                            href={`/product-details/${id}`}
                             className="flex h-10 items-center bg-gray-800 pe-4 ps-8 text-sm font-medium"
                         >
-                            {currentCourse}
+                            {currentCourse} 
                         </a>
                     </li>
                 </ol>

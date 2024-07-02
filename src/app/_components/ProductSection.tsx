@@ -10,10 +10,10 @@ const ProductSection = () => {
     const [productList, setProductList] = useState<IProduct[]>([]);
 
     useEffect(() => {
-        getLatestProducts();
+        getLatestProduct_();
     }, []);
 
-    const getLatestProducts = () => {
+    const getLatestProduct_ = () => {
         ProductApi.getLatestProduct().then(
             res => {
                 setProductList(res.data.data);

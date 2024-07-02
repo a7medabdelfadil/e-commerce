@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { IProduct } from "../interfaces/interface";
+import Link from 'next/link';
 
 interface ProductCardProps {
     product: IProduct | undefined; // Define product as possibly undefined
@@ -22,7 +23,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const bannerImage = banner?.data?.attributes?.formats?.thumbnail;
     const imageSrc = bannerImage?.url || '/placeholder-image.jpg';
     const imageAlt = banner?.data?.attributes.name || 'Product Image';
-
+// href={`/product-details/${id}`}
     return (
         <div className="group relative block overflow-hidden bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition duration-300">
             {/* Wishlist button */}
@@ -35,16 +36,19 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
             {/* Product Image */}
             {bannerImage && (
-                <div className="relative h-64 sm:h-72 w-full">
+                <div className="relative aspect-w-1 bg-red-100 aspect-h-1 mx-h-[180px]">
                     <Image
                         src={imageSrc}
                         alt={imageAlt}
-                        layout="fill"
-                        objectFit="cover"
-                        className="group-hover:scale-105 transition duration-500"
+                        width={300} // Set the desired image width
+                        height={200} // Set the desired image height
+                        layout="responsive" // Use responsive layout
+                        objectFit="contain" // Fit the image within the frame
+                        className="rounded-t-lg group-hover:scale-105 transition duration-500"
                     />
                 </div>
             )}
+
 
             {/* Product Info */}
             <div className="relative border border-gray-700 border-t-0 bg-background p-6">
@@ -73,6 +77,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         Add to Cart
                     </button>
                 </form>
+                    <Link
+                        href={`/product-details/${id}`}
+                        className="block w-full rounded border transition text-center mt-5 border-primary px-12 py-3 text-sm font-medium text-white hover:bg-primary focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
+                    >
+                        Learn More
+                    </Link>
             </div>
         </div>
     );

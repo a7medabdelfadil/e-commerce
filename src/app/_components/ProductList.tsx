@@ -2,10 +2,14 @@ import { IProduct } from "../interfaces/interface";
 import ProductCard from "./ProductCard";
 
 interface ProductListProps {
-    productList: IProduct[];
+    productList: IProduct[] | null | undefined; // productList can be an array of products, null, or undefined
 }
 
 const ProductList: React.FC<ProductListProps> = ({ productList }) => {
+    if (!productList) {
+        return <div>Loading...</div>; // Optional: Handle loading state
+    }
+
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {productList.map(product => (
