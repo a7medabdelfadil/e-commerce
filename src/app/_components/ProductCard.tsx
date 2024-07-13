@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/image";
 import { IProduct } from "../interfaces/interface";
 import Link from 'next/link';
 
@@ -40,12 +40,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     <Image
                         src={imageSrc}
                         alt={imageAlt}
-                        width={300} // Set the desired image width
-                        height={200} // Set the desired image height
-                        layout="responsive" // Use responsive layout
-                        objectFit="contain" // Fit the image within the frame
+                        // Set the desired image width
+                        width={300}
+                        // Set the desired image height
+                        height={200}
                         className="rounded-t-lg group-hover:scale-105 transition duration-500"
-                    />
+                        sizes="100vw"
+                        style={{
+                            width: "100%",
+                            height: "auto",
+                            objectFit: "contain"
+                        }} />
                 </div>
             )}
 

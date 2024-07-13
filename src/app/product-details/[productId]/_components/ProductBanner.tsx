@@ -1,5 +1,5 @@
 import { IProduct } from "@/app/interfaces/interface";
-import Image from 'next/image';
+import Image from "next/image";
 
 interface IProductDetails {
     productDetails: IProduct;
@@ -22,7 +22,10 @@ const ProductBanner = ({ productDetails }: IProductDetails) => {
                     className="rounded-lg shadow-lg"
                     width={500}
                     height={500}
-                />
+                    style={{
+                        maxWidth: "100%",
+                        height: "auto"
+                    }} />
             </div>
         </div>
     );
