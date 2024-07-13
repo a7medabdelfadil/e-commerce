@@ -1,5 +1,11 @@
-import { IProduct } from "@/app/interfaces/interface";
+// ** In the name of Allah ♥️
+'use client'
+
+import { IAddToCartData, IApiResponse, IProduct } from "@/app/interfaces/interface";
 import { useState } from 'react';
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from 'next/navigation'
+import CartApis from "@/app/_utils/CartApis";
 
 interface IProductInfoProps {
     productDetails: IProduct;
@@ -7,13 +13,42 @@ interface IProductInfoProps {
 
 const ProductInfo = ({ productDetails }: IProductInfoProps) => {
     const [quantity, setQuantity] = useState(1);
-    const { attributes } = productDetails;
-    const { title, description, price, instantDelivery, category } = attributes;
+    const { attributes } = productDetails || {};
+    const { title, description, price, instantDelivery, category } = attributes || {};
 
     const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value, 10);
         setQuantity(value > 0 ? value : 1);
     };
+
+    const router = useRouter();
+    const { user } = useUser();
+
+    const handleAddCart = () => {
+        if (!user) {
+            router.push('/sign-in');
+        } else if (productDetails) {
+            const data: IAddToCartData = {
+                data: {
+                    username: user.fullName,
+                    email: user.primaryEmailAddress?.emailAddress || null, // Set to null if undefined
+                    products: [productDetails.id],
+                },
+            };
+
+            CartApis.addToCart(data)
+                .then((res: IApiResponse) => {
+                    console.log('cart success', res);
+                })
+                .catch((err: string) => {
+                    console.log('error', err);
+                });
+        }
+    };
+
+    if (!productDetails) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="p-4 text-white">
@@ -35,7 +70,9 @@ const ProductInfo = ({ productDetails }: IProductInfoProps) => {
                     </p>
                 </div>
             </div>
-            <p className="text-gray-200 mb-4 max-w-screen-sm">{description.map(desc => desc.children[0].text).join(' ')}</p>
+            <p className="text-gray-200 mb-4 max-w-screen-sm">
+                {description ? description.map(desc => desc.children[0].text).join(' ') : ''}
+            </p>
             {category && (
                 <div className="flex items-center mb-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5 mr-2 text-gray-400">
@@ -58,7 +95,7 @@ const ProductInfo = ({ productDetails }: IProductInfoProps) => {
                         placeholder="1"
                         className="w-20 p-2 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
                     />
-                    <button type="button" className="block w-full rounded bg-primary hover:bg-secondary p-4 text-sm font-medium transition duration-300 hover:scale-105 text-white flex items-center justify-center">
+                    <button onClick={handleAddCart} type="button" className="block w-full rounded bg-primary hover:bg-secondary p-4 text-sm font-medium transition duration-300 hover:scale-105 text-white flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5 mr-2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
