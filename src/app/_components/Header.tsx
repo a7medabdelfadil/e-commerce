@@ -4,13 +4,18 @@
 import { UserButton, useUser } from "@clerk/nextjs";
 import Image from "next/image"
 import ShoppingCartIcon from "./ShoppingCartIcon";
-import { useEffect , useState} from "react";
+
+import { useContext, useState, useEffect } from 'react';
+import { CartContext } from '@/app/_context/CartContext';
 
 const Header = () => {
-    const {user} = useUser()
-    const [isLoggedIn, setIsloggedIn] = useState(false)
+    const { user } = useUser();
+    const cartContext = useContext(CartContext);
+    const [cart, setCart] = cartContext ? [cartContext.cart, cartContext.setCart] : [[], () => { }];
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
     useEffect(() => {
-        setIsloggedIn(window.location.href.toString().includes('sign-in'))
+        setIsLoggedIn(window.location.href.toString().includes('sign-in'));
     }, []);
     return !isLoggedIn && (
         <header className="bg-white dark:bg-background pt-3">
@@ -99,7 +104,7 @@ const Header = () => {
                                 </div> : 
                                 <div className="flex items-center gap-5">
                                     <div className="flex gap-1 cursor-pointer">
-                                        <ShoppingCartIcon /> (0)
+                                        <ShoppingCartIcon /> ({cart?.length})
                                     </div>
                                     <UserButton />
                                 </div>

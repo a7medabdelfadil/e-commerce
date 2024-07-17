@@ -83,8 +83,11 @@ export interface IProduct {
 }
 
 export interface IApiResponse {
-  data: IProduct[];
+  data: {
+    id: string;
+  };
 }
+
 
 export interface ICartData {
   username: string | null;
@@ -152,4 +155,9 @@ export interface ICartApiResponse {
     data: string; // JSON string
   };
   request: Record<string, any>;
+}
+
+export interface ICartItem {
+  id: string;
+  productDetails: IProduct;
 }
