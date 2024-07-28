@@ -310,7 +310,7 @@ const Footer = () => {
                             </li>
                         </ul>
                             <p className="mt-4 text-center text-sm text-gray-500 sm:mt-0 sm:text-right dark:text-gray-400">
-                                Codying by <a className="text-primary hover:text-secondary" href="https://linktr.ee/abufadel">Abufadel</a> Copyright &copy; 2024. All rights reserved.
+                                Coding by <a className="text-primary hover:text-secondary" href="https://linktr.ee/ahmed_abdelfadeel">Abufadel</a> Copyright &copy; 2024. All rights reserved.
                             </p>
                         
                     </div>
