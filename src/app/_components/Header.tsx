@@ -10,8 +10,14 @@ import CartApis from "../_utils/CartApis";
 import { AxiosResponse } from "axios";
 import { CartItem, CartStateItem } from "../interfaces/interface";
 import Cart from "./Cart";
+import { usePathname } from 'next/navigation'
 
 const Header = () => {
+    const path = usePathname();
+    const showHeader = path.includes('sign-in') || path.includes('sign-up');
+    console.log(`Current URL: ${path}`);
+
+
     const { user } = useUser();
     const [isLoggedIn, setIsloggedIn] = useState(false);
     const { cart, setCart } = useContext(CartContext);
@@ -63,6 +69,8 @@ const Header = () => {
     }, []);
 
     return (
+        <div>
+            {!showHeader &&
         <header className="bg-white dark:bg-background pt-3">
             <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
                 <a className="block text-teal-600 dark:text-teal-300 shadow-md" title='Abufadel Logo' href="#">
@@ -178,6 +186,8 @@ const Header = () => {
                 </div>
             </div>
         </header>
+        }
+        </div>
     );
 };
 

@@ -30,8 +30,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <body className={roboto.className}>
             <Header />
             {children}
-            <Footer />
-          </body>
+            <Footer />          
+            </body>
         </html>
       </CartContext.Provider>
     </ClerkProvider>
