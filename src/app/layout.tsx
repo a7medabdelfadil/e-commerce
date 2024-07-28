@@ -6,10 +6,9 @@ import "./globals.css";
 import Header from "./_components/Header";
 import Footer from "./_components/Footer";
 import { ClerkProvider } from '@clerk/nextjs';
-import { CartContext } from "./_context/CartContext";
+import { dark } from '@clerk/themes';
 import { useState } from "react";
-import { ICartItem } from "./interfaces/interface";
-
+import CartContext from "./_context/CartContext";
 const roboto = Roboto({ subsets: ["latin"], weight: "700" });
 
 interface RootLayoutProps {
@@ -17,10 +16,15 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
-  const [cart, setCart] = useState<ICartItem[]>([]);
+  const [cart, setCart] = useState<any | []>([]);
+  
 
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark
+      }}
+    publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
       <CartContext.Provider value={{ cart, setCart }}>
         <html lang="en">
           <body className={roboto.className}>

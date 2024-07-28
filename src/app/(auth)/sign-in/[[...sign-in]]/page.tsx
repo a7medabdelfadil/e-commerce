@@ -1,8 +1,9 @@
 import { SignIn } from "@clerk/nextjs";
+import React from 'react';
 
 export default function Page() {
   return (
-    <section className="bg-white">
+    <section className="bg-background">
   <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
     <section className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
       <img

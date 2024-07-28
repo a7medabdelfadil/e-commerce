@@ -1,9 +1,7 @@
-import { createContext, Dispatch, SetStateAction } from 'react';
-import { ICartItem } from '../interfaces/interface';
+import { createContext } from "react";
 
-interface ICartContext {
-    cart: ICartItem[];
-    setCart: Dispatch<SetStateAction<ICartItem[]>>;
-}
+let context: any = null;
 
-export const CartContext = createContext<ICartContext | null>(null);
+let CartContext = createContext<any>(context);
+
+export default CartContext;

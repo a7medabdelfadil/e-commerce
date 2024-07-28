@@ -1,12 +1,23 @@
+import React from 'react';
 import Image from "next/image";
-import { IProduct } from "../interfaces/interface";
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'; // Correct import for App Router
+import { useUser } from "@clerk/nextjs";
+import { IProduct, IAddToCartData } from "../interfaces/interface";
+import CartApis from "../_utils/CartApis";
+import { AxiosResponse } from "axios";
+import CartContext from "../_context/CartContext";
+import { useContext } from "react";
 
 interface ProductCardProps {
     product: IProduct | undefined; // Define product as possibly undefined
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+    const { user } = useUser();
+    const router = useRouter();
+    const {cart, setCart} = useContext(CartContext);
+
     if (!product) {
         return null; // Handle case where product is undefined
     }
@@ -23,7 +34,35 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const bannerImage = banner?.data?.attributes?.formats?.thumbnail;
     const imageSrc = bannerImage?.url || '/placeholder-image.jpg';
     const imageAlt = banner?.data?.attributes.name || 'Product Image';
-// href={`/product-details/${id}`}
+
+    const handleAddCart = () => {
+        if (!user) {
+            router.push('/sign-in');
+        } else {
+            const data: IAddToCartData = {
+                data: {
+                    username: user.fullName,
+                    email: user.primaryEmailAddress?.emailAddress || null, // Set to null if undefined
+                    products: [id],
+                },
+            };
+
+            CartApis.addToCart(data)
+                .then((res: AxiosResponse<{ data: { id: string } }>) => {
+                    setCart((oldCart: any[]) => [
+                        ...oldCart,
+                        {
+                            id: res.data.data.id,
+                            product,
+                        }
+                    ]);
+                })
+                .catch((err: any) => {
+                    console.log('error', err);
+                });
+        }
+    };
+
     return (
         <div className="group relative block overflow-hidden bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition duration-300">
             {/* Wishlist button */}
@@ -40,9 +79,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     <Image
                         src={imageSrc}
                         alt={imageAlt}
-                        // Set the desired image width
                         width={300}
-                        // Set the desired image height
                         height={200}
                         className="rounded-t-lg group-hover:scale-105 transition duration-500"
                         sizes="100vw"
@@ -53,7 +90,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         }} />
                 </div>
             )}
-
 
             {/* Product Info */}
             <div className="relative border border-gray-700 border-t-0 bg-background p-6">
@@ -74,7 +110,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 </div>
 
                 {/* Add to Cart Button */}
-                <form className="mt-4">
+                <form className="mt-4" onSubmit={(e) => { e.preventDefault(); handleAddCart(); }}>
                     <button className="block w-full rounded bg-primary hover:bg-secondary p-4 text-sm font-medium transition duration-300 hover:scale-105 text-white flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5 mr-2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -82,12 +118,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         Add to Cart
                     </button>
                 </form>
-                    <Link
-                        href={`/product-details/${id}`}
-                        className="block w-full rounded border transition text-center mt-5 border-primary px-12 py-3 text-sm font-medium text-white hover:bg-primary focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
-                    >
-                        Learn More
-                    </Link>
+
+                {/* Learn More Link */}
+                <Link
+                    href={`/product-details/${id}`}
+                    className="block w-full rounded border transition text-center mt-5 border-primary px-12 py-3 text-sm font-medium text-white hover:bg-primary focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
+                >
+                    Learn More
+                </Link>
             </div>
         </div>
     );

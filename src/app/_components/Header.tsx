@@ -2,22 +2,67 @@
 'use client'
 
 import { UserButton, useUser } from "@clerk/nextjs";
-import Image from "next/image"
+import Image from "next/image";
 import ShoppingCartIcon from "./ShoppingCartIcon";
-
-import { useContext, useState, useEffect } from 'react';
-import { CartContext } from '@/app/_context/CartContext';
+import { useContext, useEffect, useRef, useState } from "react";
+import CartContext from "../_context/CartContext";
+import CartApis from "../_utils/CartApis";
+import { AxiosResponse } from "axios";
+import { CartItem, CartStateItem } from "../interfaces/interface";
+import Cart from "./Cart";
 
 const Header = () => {
     const { user } = useUser();
-    const cartContext = useContext(CartContext);
-    const [cart, setCart] = cartContext ? [cartContext.cart, cartContext.setCart] : [[], () => { }];
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsloggedIn] = useState(false);
+    const { cart, setCart } = useContext(CartContext);
+    const [openCart, setOpenCart] = useState(false);
+    const cartRef = useRef<HTMLDivElement>(null);
+
+    const userEmail = user?.primaryEmailAddress?.emailAddress;
 
     useEffect(() => {
-        setIsLoggedIn(window.location.href.toString().includes('sign-in'));
+        if (userEmail) {
+            getCartItems(setCart, userEmail);
+        }
+    }, [userEmail]);
+
+    const getCartItems = (setCart: React.Dispatch<React.SetStateAction<CartStateItem[]>>, userEmail: string) => {
+        CartApis.getUserCartItems(userEmail)
+            .then((res: AxiosResponse<{ data: CartItem[] }>) => {
+                console.log('res cart', res.data.data);
+                res.data.data.forEach(cartItem => {
+                    setCart((oldCart: CartStateItem[]) => [
+                        ...oldCart,
+                        {
+                            id: cartItem.id,
+                            product: cartItem.attributes.products.data[0],
+                        },
+                    ]);
+                });
+            })
+            .catch((err: any) => {
+                console.log('error', err);
+            });
+    };
+
+    useEffect(() => {
+        setIsloggedIn(!!user);
+    }, [user]);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
+                setOpenCart(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
     }, []);
-    return !isLoggedIn && (
+
+    return (
         <header className="bg-white dark:bg-background pt-3">
             <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
                 <a className="block text-teal-600 dark:text-teal-300 shadow-md" title='Abufadel Logo' href="#">
@@ -85,30 +130,33 @@ const Header = () => {
 
                     <div className="flex items-center gap-4">
                         {
-                            !user ?
-                            <div className="sm:flex sm:gap-4">
-                            <a
-                                className="block rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white transition hover:bg-secondary dark:hover:bg-secondary"
-                                href="/sign-in"
-                                >
-                                Login
-                            </a>
+                            !isLoggedIn ?
+                                <div className="sm:flex sm:gap-4">
+                                    <a
+                                        className="block rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white transition hover:bg-secondary dark:hover:bg-secondary"
+                                        href="/sign-in"
+                                    >
+                                        Login
+                                    </a>
 
-
-                            <a
-                                className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-primary transition hover:text-primary/75 sm:block dark:bg-gray-800 dark:text-white dark:hover:text-white/75"
-                                href="#"
-                            >
-                                Register
-                            </a>
-                                </div> : 
-                                <div className="flex items-center gap-5">
-                                    <div className="flex gap-1 cursor-pointer">
+                                    <a
+                                        className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-primary transition hover:text-primary/75 sm:block dark:bg-gray-800 dark:text-white dark:hover:text-white/75"
+                                        href="#"
+                                    >
+                                        Register
+                                    </a>
+                                </div> :
+                                <div
+                                    className="flex items-center gap-5" ref={cartRef}>
+                                    <div className="flex gap-1 cursor-pointer"
+                                        onClick={() => setOpenCart(!openCart)}
+                                    >
                                         <ShoppingCartIcon /> ({cart?.length})
                                     </div>
-                                    <UserButton />
-                                </div>
 
+                                    <UserButton />
+                                    {openCart && <Cart />}
+                                </div>
                         }
 
                         <button

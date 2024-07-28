@@ -83,11 +83,8 @@ export interface IProduct {
 }
 
 export interface IApiResponse {
-  data: {
-    id: string;
-  };
+  data: IProduct[];
 }
-
 
 export interface ICartData {
   username: string | null;
@@ -157,7 +154,148 @@ export interface ICartApiResponse {
   request: Record<string, any>;
 }
 
-export interface ICartItem {
-  id: string;
-  productDetails: IProduct;
+interface UserAttributes {
+  username: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+interface UserData {
+  id: number;
+  attributes: UserAttributes;
+}
+
+interface ApiData {
+  data: UserData;
+  meta: {};
+}
+
+export interface ApiResponse {
+  data: ApiData;
+  status: number;
+  statusText: string;
+  headers: Record<string, string>;
+  config: any;
+  request: any;
+}
+
+
+// Define the interfaces for the API response data structure
+interface UserAttributes {
+  username: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+interface UserData {
+  id: number;
+  attributes: UserAttributes;
+}
+
+export interface ApiResponseData {
+  data: UserData;
+  meta: {};
+}
+
+
+// Define the interfaces for the API response structure
+interface BannerAttributes {
+  name: string;
+  alternativeText: string | null;
+  caption: string | null;
+  width: number;
+  height: number;
+  formats: {
+    thumbnail: {
+      name: string;
+      hash: string;
+      ext: string;
+      mime: string;
+      path: string | null;
+      width: number;
+      height: number;
+      size: number;
+      sizeInBytes: number;
+      url: string;
+      provider_metadata: {
+        public_id: string;
+        resource_type: string;
+      };
+    };
+  };
+  hash: string;
+  ext: string;
+  mime: string;
+  size: number;
+  url: string;
+  previewUrl: string | null;
+  provider: string;
+  provider_metadata: {
+    public_id: string;
+    resource_type: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface BannerData {
+  id: number;
+  attributes: BannerAttributes;
+}
+
+interface ProductAttributes {
+  title: string;
+  description: Array<{
+    type: string;
+    children: Array<{
+      type: string;
+      text: string;
+    }>;
+  }>;
+  price: number;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  instantDelivery: boolean;
+  whatsIncluded: Array<{
+    type: string;
+    children: Array<{
+      type: string;
+      text: string;
+    }>;
+  }>;
+  category: string;
+  banner: {
+    data: BannerData;
+  };
+}
+
+interface ProductData {
+  id: number;
+  attributes: ProductAttributes;
+}
+
+interface CartItemAttributes {
+  username: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  products: {
+    data: ProductData[];
+  };
+}
+
+export interface CartItem {
+  id: number;
+  attributes: CartItemAttributes;
+}
+
+export interface CartStateItem {
+  id: number;
+  product: ProductData;
 }

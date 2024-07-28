@@ -20,8 +20,8 @@ const ProductBanner = ({ productDetails }: IProductDetails) => {
                     src={imageSrc}
                     alt={imageAlt}
                     className="rounded-lg shadow-lg"
-                    width={500}
-                    height={500}
+                    width={400}
+                    height={400}
                     style={{
                         maxWidth: "100%",
                         height: "auto"
