@@ -42,7 +42,7 @@ const Cart = () => {
                     href="/cart"
                     className="block rounded border border-gray-600 px-5 py-3 text-sm text-gray-600 transition hover:ring-1 hover:ring-gray-400"
                 >
-                    View my cart ({cart?.length || 0})
+                    View my carts ({cart?.length || 0})
                 </Link>
                 <a
                     href="#"
