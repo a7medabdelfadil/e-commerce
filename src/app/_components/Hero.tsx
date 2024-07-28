@@ -6,12 +6,12 @@ const Hero = () => {
                     <h1
                         className="text-3xl sm:text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-green-300 via-primary to-purple-600 bg-clip-text text-transparent sm:text-5xl"
                     >
-                        Discover Amazing Deals.
-                        <span className="sm:block"> Shop Smarter. </span>
+                        Discover Amazing Courses.
+                        <span className="sm:block"> Learn Smarter. </span>
                     </h1>
 
                     <p className="mx-auto mt-4 max-w-xl text-lg sm:text-xl leading-relaxed">
-                        Find the latest trends and best prices. Elevate your shopping experience with us.
+                        Find the latest trends and best prices. Elevate your Learning experience with us.
                     </p>
 
                     <div className="mt-8 flex flex-wrap justify-center gap-4">

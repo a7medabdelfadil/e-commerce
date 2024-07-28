@@ -16,7 +16,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const { user } = useUser();
     const router = useRouter();
-    const {cart, setCart} = useContext(CartContext);
+    const { setCart} = useContext(CartContext);
 
     if (!product) {
         return null; // Handle case where product is undefined

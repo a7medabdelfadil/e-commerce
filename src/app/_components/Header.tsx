@@ -15,7 +15,6 @@ import { usePathname } from 'next/navigation'
 const Header = () => {
     const path = usePathname();
     const showHeader = path.includes('sign-in') || path.includes('sign-up');
-    console.log(`Current URL: ${path}`);
 
 
     const { user } = useUser();
@@ -73,7 +72,7 @@ const Header = () => {
             {!showHeader &&
         <header className="bg-white dark:bg-background pt-3">
             <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
-                <a className="block text-teal-600 dark:text-teal-300 shadow-md" title='Abufadel Logo' href="#">
+                <a className="block text-teal-600 dark:text-teal-300 shadow-md" title='Abufadel Logo' href="/">
                     <Image
                         src='/favicon.png'
                         alt='Abufadel Logo'
@@ -149,7 +148,7 @@ const Header = () => {
 
                                     <a
                                         className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-primary transition hover:text-primary/75 sm:block dark:bg-gray-800 dark:text-white dark:hover:text-white/75"
-                                        href="#"
+                                        href="/"
                                     >
                                         Register
                                     </a>

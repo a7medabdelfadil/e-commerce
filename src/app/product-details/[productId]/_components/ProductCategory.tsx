@@ -30,7 +30,7 @@ const ProductCategory: React.FC<IProps> = ({ category }) => {
     return (
         <div className="px-10 md:px-20 rounded-lg bg-background">
             <h1 className="mb-5 text-3xl sm:text-4xl md:text-5xl font-bold text-white bg-clip-text">
-                Similar Products
+                Similar Courses
             </h1>
             <ProductList productList={productList} />
         </div>

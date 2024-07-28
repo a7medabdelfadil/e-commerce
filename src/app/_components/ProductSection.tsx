@@ -27,7 +27,7 @@ const ProductSection = () => {
     return (
         <div className="px-10 md:px-20 rounded-lg bg-background">
             <h1 className="mb-5 text-3xl sm:text-4xl md:text-5xl font-bold text-white bg-clip-text">
-                Our Latest Products
+                Our Courses
             </h1>
             <ProductList productList={productList} />
         </div>

@@ -7,7 +7,7 @@ interface ProductListProps {
 
 const ProductList: React.FC<ProductListProps> = ({ productList }) => {
     if (!productList) {
-        return <div>Loading...</div>; // Optional: Handle loading state
+        return <div>Loading...</div>; 
     }
 
     return (
