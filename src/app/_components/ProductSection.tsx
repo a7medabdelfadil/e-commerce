@@ -1,27 +1,30 @@
 // ** In the name of Allah ♥️
 'use client'
 
-import React from 'react';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import ProductApi from "./ProductApi";
 import { IProduct } from "../interfaces/interface";
 import ProductList from "./ProductList";
+import ProductSkeleton from "./ProductSkeleton";
+import Divider from './Divider';
 
 const ProductSection = () => {
     const [productList, setProductList] = useState<IProduct[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getLatestProduct_();
     }, []);
 
-    const getLatestProduct_ = () => {
-        ProductApi.getLatestProduct().then(
-            res => {
-                setProductList(res.data.data);
-            }
-        ).catch(error => {
+    const getLatestProduct_ = async () => {
+        try {
+            const res = await ProductApi.getLatestProduct();
+            setProductList(res.data.data);
+        } catch (error) {
             console.error("Error fetching products:", error);
-        });
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -29,10 +32,16 @@ const ProductSection = () => {
             <h1 className="mb-5 text-3xl sm:text-4xl md:text-5xl font-bold text-white bg-clip-text">
                 Our Courses
             </h1>
-            <ProductList productList={productList} />
+            {loading ? (
+                <ProductSkeleton />
+            ) : (
+                <div>
+                    <ProductList productList={productList} />
+                    <Divider />
+                </div>
+            )}
         </div>
-
-    )
+    );
 };
 
 export default ProductSection;

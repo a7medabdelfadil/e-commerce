@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/pages/index.tss", "src/app/api/send-email/route.sx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/pages/index.tss", "src/app/api/send-email/route.sx", "src/app/_components/CartSkeleton.jsx"],
   "exclude": ["node_modules"]
 }
