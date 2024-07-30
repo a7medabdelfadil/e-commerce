@@ -1,6 +1,7 @@
 // ** In the name of Allah ♥️
 'use client'
 import { usePathname } from 'next/navigation'
+import Divider from './Divider';
 
 const Footer = () => {
     const path = usePathname();
@@ -9,6 +10,7 @@ const Footer = () => {
 
     return (
         <div>
+        <Divider />
         {!showFooter &&
             <footer className="bg-white dark:bg-gray-900">
                 <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">

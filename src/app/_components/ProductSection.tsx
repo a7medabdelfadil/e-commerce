@@ -6,7 +6,6 @@ import ProductApi from "./ProductApi";
 import { IProduct } from "../interfaces/interface";
 import ProductList from "./ProductList";
 import ProductSkeleton from "./ProductSkeleton";
-import Divider from './Divider';
 
 const ProductSection = () => {
     const [productList, setProductList] = useState<IProduct[]>([]);
@@ -35,10 +34,7 @@ const ProductSection = () => {
             {loading ? (
                 <ProductSkeleton />
             ) : (
-                <div>
-                    <ProductList productList={productList} />
-                    <Divider />
-                </div>
+                <ProductList productList={productList} />
             )}
         </div>
     );

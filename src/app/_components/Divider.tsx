@@ -2,7 +2,9 @@
 
 const Divider  = () => {
     return (
-        <hr className="w-[90%] mx-auto pb-6 border-t border-gray-700" />
+        <div className="w-full bg-background">
+            <hr className="w-[90%] bg-background mx-auto pb-6 border-t border-gray-700" />
+        </div>
     )
 };
 

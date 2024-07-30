@@ -4,7 +4,7 @@ const CartSkeleton = () => {
   return (
     <div className="mb-20 p-4 mr-10 text-white flex flex-col justify-between">
       <div>
-        <div className="flex justify-center gap-28 mb-4 animate-pulse md:flex-col sm:flex-col">
+        <div className="flex justify-center gap-28 mb-4 animate-pulse flex-col md:flex-row">
           <div className="h-[250px] w-[400px]  bg-gray-700 rounded"></div>
           <div className="flex items-between">
             <div className="flex flex-col">
