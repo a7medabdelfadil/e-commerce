@@ -19,12 +19,12 @@ const ProductInfo = ({ productDetails }: IProductInfoProps) => {
     const { title, description, price, instantDelivery, category } = attributes || {};
     const router = useRouter();
     const { user } = useUser();
-    const { setCart } = useContext(CartContext)
+    const { setCart } = useContext(CartContext);
 
     const handleAddCart = () => {
-        router.push('/sign-in');
         if (!user) {
-        } else if (productDetails) {
+            router.push('/sign-in');
+        } else {
             const data: IAddToCartData = {
                 data: {
                     username: user.fullName,
@@ -32,8 +32,9 @@ const ProductInfo = ({ productDetails }: IProductInfoProps) => {
                     products: [productDetails.id],
                 },
             };
+
             CartApis.addToCart(data)
-                .then((res: AxiosResponse<ApiResponseData>) => {
+                .then((res: AxiosResponse<{ data: { id: string } }>) => {
                     setCart((oldCart: any[]) => [
                         ...oldCart,
                         {
@@ -47,8 +48,8 @@ const ProductInfo = ({ productDetails }: IProductInfoProps) => {
                 });
         }
     };
-    return (
 
+    return (
         <div className="p-4 text-white flex flex-col justify-between">
             <div>
                 <div className="flex justify-between items-center mb-4">
@@ -82,10 +83,8 @@ const ProductInfo = ({ productDetails }: IProductInfoProps) => {
                 )}
             </div>
             <form className="mt-4 w-full max-w-xs">
-
                 <div className="flex items-center space-x-4">
                     <button onClick={handleAddCart} type="button" className="block w-full rounded bg-primary hover:bg-secondary p-4 text-sm font-medium transition duration-300 hover:scale-105 text-white flex items-center justify-center">
-
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5 mr-2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
@@ -96,4 +95,5 @@ const ProductInfo = ({ productDetails }: IProductInfoProps) => {
         </div>
     );
 };
+
 export default ProductInfo;
